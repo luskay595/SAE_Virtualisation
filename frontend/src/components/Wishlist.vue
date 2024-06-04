@@ -8,10 +8,10 @@
       <button type="submit">Add Item</button>
     </form>
     <ul>
-      <li v-for="item in items" :key="item.id">
-        {{ item.name }} - ${{ item.price }} ({{ item.keyword }})
-      </li>
-    </ul>
+  <li v-for="item in items" :key="item.id">
+    {{ item.name }} - ${{ item.price }} ({{ item.keywords }})
+  </li>
+</ul>
   </div>
 </template>
 
