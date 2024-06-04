@@ -22,24 +22,40 @@ export default {
       name: '',
       price: 0,
       keyword: '',
-      items: [
-        { id: 1, name: 'Book', price: 15, keyword: 'Education' },
-        { id: 2, name: 'Game', price: 60, keyword: 'Entertainment' }
-      ]
+      items: []
     }
   },
+  created() {
+    this.fetchItems();
+  },
   methods: {
+    fetchItems() {
+      fetch('http://localhost:5000/api/wishlist')
+        .then(response => response.json())
+        .then(data => {
+          this.items = data;
+        });
+    },
     addItem() {
       const newItem = {
-        id: this.items.length + 1,
         name: this.name,
         price: this.price,
         keyword: this.keyword
       };
-      this.items.push(newItem);
-      this.name = '';
-      this.price = 0;
-      this.keyword = '';
+      fetch('http://localhost:5000/api/wishlist', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(newItem)
+      })
+      .then(response => response.json())
+      .then(data => {
+        this.items.push(data);
+        this.name = '';
+        this.price = 0;
+        this.keyword = '';
+      });
     }
   }
 }

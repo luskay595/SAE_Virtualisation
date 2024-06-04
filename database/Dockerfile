@@ -1,13 +1,10 @@
-# Dockerfile pour PostgreSQL
-FROM postgres:13-alpine
+# Utiliser l'image officielle PostgreSQL comme base
+FROM postgres:latest
 
-ENV POSTGRES_DB=shopping_list
-ENV POSTGRES_USER=admin
-ENV POSTGRES_PASSWORD=@dmin123
-
-WORKDIR /app
-
+# Ajouter le script d'initialisation
 COPY init.sql /docker-entrypoint-initdb.d/
 
+
+# Exposer le port PostgreSQL
 EXPOSE 5432
 
