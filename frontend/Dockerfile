@@ -1,11 +1,27 @@
-# Dockerfile pour le Front-End
+# Utiliser une image de base légère de Node.js
 FROM node:14-alpine
 
-# Créer un répertoire de travail
+# Définir le répertoire de travail dans le conteneur
 WORKDIR /app
 
-# Exposer le port par défaut de l'application
+# Copier les fichiers package.json et package-lock.json
+COPY package*.json ./
+
+# Installer les dépendances
+RUN npm install
+
+# Copier le reste des fichiers de l'application
+COPY . .
+
+# Construire l'application pour la production
+RUN npm run build
+
+# Installer un serveur HTTP léger pour servir les fichiers statiques
+RUN npm install -g serve
+
+# Exposer le port sur lequel l'application s'exécutera
 EXPOSE 8085
 
-# CMD ["npm", "run", "serve"] <- Commenter cette ligne pour l'instant
+# Commande pour lancer l'application Vue.js
+CMD ["serve", "-s", "dist", "-l", "8085"]
 
