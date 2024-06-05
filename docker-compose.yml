@@ -6,6 +6,8 @@ services:
       - "8085:8085"
     depends_on:
       - backend
+    networks:
+      - frontend-backend-net
 
   backend:
     build: ./backend
@@ -13,6 +15,9 @@ services:
       - "5000:5000"
     depends_on:
       - db
+    networks:
+      - frontend-backend-net
+      - backend-db-net
 
   db:
     build: ./database
@@ -20,9 +25,15 @@ services:
       POSTGRES_USER: admin
       POSTGRES_PASSWORD: admin123
       POSTGRES_DB: wishlist
-    ports:
-      - "5432:5432"
     volumes:
       - ./database/init.sql:/docker-entrypoint-initdb.d/init.sql
+    networks:
+      - backend-db-net
+
+networks:
+  frontend-backend-net:
+    driver: bridge
+  backend-db-net:
+    driver: bridge
 
 
