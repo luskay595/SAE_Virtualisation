@@ -1,3 +1,5 @@
+// controllers/wishlistController.js
+
 const jwt = require('jsonwebtoken');
 const db = require('../models/db');
 
@@ -53,7 +55,7 @@ const addItem = (req, res) => {
   }
 };
 
-const shareItem = (req, res) => {
+const shareWishlist = (req, res) => {
   try {
     const { wishlistId, shareWithUserId } = req.body;
     const token = req.headers.authorization.split(' ')[1];
@@ -65,7 +67,7 @@ const shareItem = (req, res) => {
         return res.status(500).json({ error: err.message });
       }
       if (result.rows.length === 0) {
-        return res.status(403).json({ error: 'You are not authorized to share this item' });
+        return res.status(403).json({ error: 'You are not authorized to share this wishlist' });
       }
 
       db.query('INSERT INTO shared_wishlist (wishlist_id, shared_with_user_id) VALUES ($1, $2) RETURNING *', [wishlistId, shareWithUserId], (err, result) => {
@@ -84,6 +86,6 @@ module.exports = {
   getItems,
   getSharedItems,
   addItem,
-  shareItem
+  shareWishlist
 };
 

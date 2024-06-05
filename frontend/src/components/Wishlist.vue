@@ -14,6 +14,12 @@
       <input v-model="newItemKeyword" type="text" placeholder="Mots-clés">
       <button type="submit">Ajouter</button>
     </form>
+    <h2>Partager ma Liste d'Envies</h2>
+    <!-- Ajout de la liste déroulante pour sélectionner les utilisateurs -->
+    <select v-model="selectedUsers" multiple>
+      <option v-for="user in users" :key="user.id" :value="user.id">{{ user.name }}</option>
+    </select>
+    <button @click="shareList">Partager avec les utilisateurs sélectionnés</button>
   </div>
 </template>
 
@@ -25,7 +31,9 @@ export default {
       sharedItems: [],
       newItemName: '',
       newItemPrice: 0,
-      newItemKeyword: ''
+      newItemKeyword: '',
+      users: [], // Liste des utilisateurs
+      selectedUsers: [] // Utilisateurs sélectionnés pour le partage
     }
   },
   methods: {
@@ -60,7 +68,7 @@ export default {
       }
 
       try {
-        const response = await fetch('http://localhost:5000/api/wishlist/shared', {
+        const response = await fetch('http://localhost:5000/api/wishlist/share', {
           headers: {
             'Authorization': `Bearer ${token}`
           }
@@ -73,6 +81,18 @@ export default {
         }
       } catch (error) {
         console.error('Erreur lors de la récupération des items partagés:', error);
+      }
+    },
+    async fetchUsers() {
+      try {
+        const response = await fetch('http://localhost:5000/api/user');
+        if (response.ok) {
+          this.users = await response.json();
+        } else {
+          console.error('Erreur lors de la récupération des utilisateurs');
+        }
+      } catch (error) {
+        console.error('Erreur lors de la récupération des utilisateurs:', error);
       }
     },
     async addItem() {
@@ -109,11 +129,47 @@ export default {
       } catch (error) {
         console.error('Erreur lors de l\'ajout de l\'item:', error);
       }
+    },
+async shareList() {
+  const token = localStorage.getItem('token');
+  if (!token) {
+    console.error('Token non trouvé');
+    return;
+  }
+
+  const wishlistIds = this.items.map(item => item.id); // Récupérer uniquement les identifiants des items
+
+  const payload = {
+    wishlistId: wishlistIds,
+    shareWithUserId: this.selectedUsers
+  };
+
+  try {
+    const response = await fetch('http://localhost:5000/api/wishlist/share', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
+      },
+      body: JSON.stringify(payload)
+    });
+
+    if (response.ok) {
+      console.log('Liste partagée avec succès');
+    } else {
+      console.error('Erreur lors du partage de la liste', response.statusText);
     }
+  } catch (error) {
+    console.error('Erreur lors du partage de la liste:', error);
+  }
+}
+
+
   },
   mounted() {
     this.fetchItems();
     this.fetchSharedItems();
+    this.fetchUsers();
   }
 }
 </script>

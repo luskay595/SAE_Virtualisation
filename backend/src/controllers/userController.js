@@ -35,8 +35,19 @@ const login = async (req, res) => {
   }
 };
 
+// Fonction pour récupérer la liste des utilisateurs
+const getUsers = async (req, res) => {
+  try {
+    const result = await db.query('SELECT * FROM users');
+    res.status(200).json(result.rows);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+};
+
 module.exports = {
   register,
-  login
+  login,
+  getUsers // Export de la fonction getUsers
 };
 
