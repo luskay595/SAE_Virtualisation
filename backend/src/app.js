@@ -1,18 +1,20 @@
 const express = require('express');
 const cors = require('cors');
+const bodyParser = require('body-parser');
 const wishlistRoutes = require('./routes/wishlist');
+const userRoutes = require('./routes/user');
 
 const app = express();
-const PORT = 5000;
+const port = 5000;
 
 // Middleware
-app.use(cors());
-app.use(express.json());
+app.use(cors()); // Ajoutez ceci pour activer CORS
+app.use(bodyParser.json());
 
-// Routes
 app.use('/api/wishlist', wishlistRoutes);
+app.use('/api/user', userRoutes);
 
-app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`);
+app.listen(port, () => {
+  console.log(`Server running on port ${port}`);
 });
 
