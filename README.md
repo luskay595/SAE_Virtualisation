@@ -1,7 +1,3 @@
-D'accord, voici une version mise à jour du README principal pour inclure les instructions de déploiement via Docker Compose et des explications sur la sécurité et le choix des ports :
-
----
-
 # Wishlist Application
 
 Welcome to the Wishlist Application! This project aims to provide a platform for users to manage their wishlists, share them with others, and keep track of their desired items.
@@ -112,9 +108,6 @@ The following ports were chosen for deployment:
 
 To get started with the Wishlist Application, follow the deployment instructions provided above.
 
-## Contributing
-
-Contributions to the Wishlist Application are welcome! If you'd like to contribute, please fork the repository, make your changes, and submit a pull request. Be sure to follow the project's coding conventions and guidelines.
 
 
 
