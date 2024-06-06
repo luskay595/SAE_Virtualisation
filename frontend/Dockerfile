@@ -18,7 +18,7 @@ RUN npm run build
 
 # Installer un serveur HTTP léger pour servir les fichiers statiques
 RUN npm install -g serve
-RUN npm install cors
+
 # Exposer le port sur lequel l'application s'exécutera
 EXPOSE 8085
 

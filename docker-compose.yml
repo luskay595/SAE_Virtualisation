@@ -29,11 +29,27 @@ services:
       - ./database/init.sql:/docker-entrypoint-initdb.d/init.sql
     networks:
       - backend-db-net
+      - db-script-net
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U admin -d wishlist -h localhost"]
+      interval: 5s
+      timeout: 10s
+      retries: 5
+
+  script:
+    build: ./insertion_script
+    depends_on:
+      db:
+        condition: service_healthy
+    networks:
+      - db-script-net
+
 
 networks:
   frontend-backend-net:
     driver: bridge
   backend-db-net:
     driver: bridge
-
+  db-script-net:
+    driver: bridge
 

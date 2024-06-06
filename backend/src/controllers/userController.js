@@ -6,7 +6,10 @@ const register = async (req, res) => {
   const { username, password } = req.body;
   try {
     const hashedPassword = await bcrypt.hash(password, 10);
-    const result = await db.query('INSERT INTO users (username, password) VALUES ($1, $2) RETURNING *', [username, hashedPassword]);
+    const result = await db.query(
+      'INSERT INTO users (username, password) VALUES ($1, $2) RETURNING *',
+      [username, hashedPassword]
+    );
     res.status(201).json(result.rows[0]);
   } catch (err) {
     res.status(500).json({ error: err.message });
@@ -16,7 +19,9 @@ const register = async (req, res) => {
 const login = async (req, res) => {
   const { username, password } = req.body;
   try {
-    const result = await db.query('SELECT * FROM users WHERE username = $1', [username]);
+    const result = await db.query('SELECT * FROM users WHERE username = $1', [
+      username,
+    ]);
     if (result.rows.length === 0) {
       return res.status(401).json({ error: 'Utilisateur non trouvé.' });
     }
@@ -28,17 +33,25 @@ const login = async (req, res) => {
       return res.status(401).json({ error: 'Mot de passe incorrect.' });
     }
 
-    const token = jwt.sign({ userId: user.id }, 'secretKey', { expiresIn: '1h' });
+    const token = jwt.sign({ userId: user.id }, 'secretKey', {
+      expiresIn: '1h',
+    });
     res.status(200).json({ token });
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
 };
 
-// Fonction pour récupérer la liste des utilisateurs
+// Fonction pour récupérer la liste des utilisateurs sauf l'utilisateur connecté
 const getUsers = async (req, res) => {
   try {
-    const result = await db.query('SELECT * FROM users');
+    const token = req.headers.authorization.split(' ')[1];
+    const decodedToken = jwt.verify(token, 'secretKey');
+    const userId = decodedToken.userId;
+
+    const result = await db.query('SELECT * FROM users WHERE id != $1', [
+      userId,
+    ]);
     res.status(200).json(result.rows);
   } catch (err) {
     res.status(500).json({ error: err.message });
@@ -48,6 +61,5 @@ const getUsers = async (req, res) => {
 module.exports = {
   register,
   login,
-  getUsers // Export de la fonction getUsers
+  getUsers, // Export de la fonction getUsers
 };
-
