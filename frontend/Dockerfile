@@ -1,27 +1,26 @@
-# Utiliser une image de base légère de Node.js
+# Use a lightweight Node.js base image
 FROM node:14-alpine
 
-# Définir le répertoire de travail dans le conteneur
+# Set the working directory in the container
 WORKDIR /app
 
-# Copier les fichiers package.json et package-lock.json
+# Copy package.json and package-lock.json files
 COPY package*.json ./
 
-# Installer les dépendances
+# Install dependencies
 RUN npm install
 
-# Copier le reste des fichiers de l'application
+# Copy the rest of the application files
 COPY . .
 
-# Construire l'application pour la production
+# Build the application for production
 RUN npm run build
 
-# Installer un serveur HTTP léger pour servir les fichiers statiques
+# Install a lightweight HTTP server to serve static files
 RUN npm install -g serve
 
-# Exposer le port sur lequel l'application s'exécutera
+# Expose the port on which the application will run
 EXPOSE 8085
 
-# Commande pour lancer l'application Vue.js
+# Command to run the Vue.js application
 CMD ["serve", "-s", "dist", "-l", "8085"]
-

@@ -1,6 +1,16 @@
-// middlewares/authMiddleware.js
 const jwt = require('jsonwebtoken');
 
+/**
+ * Middleware function to authenticate a JWT token from the authorization header.
+ *
+ * @function authenticateToken
+ * @param {Object} req - The request object.
+ * @param {Object} req.headers - The headers of the request.
+ * @param {string} req.headers.authorization - The authorization header containing the JWT token.
+ * @param {Object} res - The response object.
+ * @param {Function} next - The next middleware function.
+ * @returns {void} - Calls the next middleware function if the token is valid, otherwise sends a 401 or 403 status.
+ */
 const authenticateToken = (req, res, next) => {
   const authHeader = req.headers.authorization;
   const token = authHeader && authHeader.split(' ')[1];

@@ -1,12 +1,12 @@
 <template>
   <div>
-    <h2>Ma Liste d'Envies</h2>
+    <h2>My Wishlist</h2>
     <ul>
       <li v-for="item in items" :key="item.id">
         {{ item.name }} - {{ item.price }} ({{ item.keywords }})
       </li>
     </ul>
-    <h2>Listes Partagées avec Moi</h2>
+    <h2>Lists Shared with Me</h2>
     <ul>
       <li v-for="item in sharedItems" :key="item.id">
         {{ item.name }} - {{ item.price }}
@@ -16,32 +16,30 @@
       <input
         v-model="newItemName"
         type="text"
-        placeholder="Nom de l'article"
+        placeholder="Item Name"
         required
       />
       <input
         v-model="newItemPrice"
         type="number"
         step="0.01"
-        placeholder="Prix"
+        placeholder="Price"
         required
       />
-      <input v-model="newItemKeyword" type="text" placeholder="Mots-clés" />
-      <button type="submit">Ajouter</button>
+      <input v-model="newItemKeyword" type="text" placeholder="Keywords" />
+      <button type="submit">Add</button>
     </form>
-    <h2>Partager ma Liste d'Envies</h2>
+    <h2>Share My Wishlist</h2>
     <select multiple v-model="selectedUsers">
       <option v-for="user in users" :key="user.id" :value="user.id">
         {{ user.username }}
       </option>
     </select>
-    <button @click="shareList">
-      Partager avec les utilisateurs sélectionnés
-    </button>
+    <button @click="shareList">Share with Selected Users</button>
   </div>
 </template>
 
-<script lang="ts" setup>
+<script setup>
 import { onMounted, ref } from 'vue';
 
 const items = ref([]);
@@ -55,7 +53,7 @@ const selectedUsers = ref([]);
 async function fetchUsers() {
   const token = localStorage.getItem('token');
   if (!token) {
-    console.error('Token non trouvé');
+    console.error('Token not found');
     return;
   }
 
@@ -67,11 +65,11 @@ async function fetchUsers() {
     });
 
     if (!response.ok) {
-      throw new Error('Erreur lors de la récupération des utilisateurs');
+      throw new Error('Error fetching users');
     }
 
     const data = await response.json();
-    console.log('Utilisateurs récupérés:', data);
+    console.log('Users fetched:', data);
     users.value = data;
   } catch (error) {
     console.error(error);
@@ -81,7 +79,7 @@ async function fetchUsers() {
 async function fetchItems() {
   const token = localStorage.getItem('token');
   if (!token) {
-    console.error('Token non trouvé');
+    console.error('Token not found');
     return;
   }
 
@@ -93,23 +91,23 @@ async function fetchItems() {
     });
 
     const text = await response.text();
-    console.log('Réponse brute:', text);
+    console.log('Raw response:', text);
 
     if (response.ok) {
       items.value = JSON.parse(text);
-      console.log('Items récupérés:', items.value);
+      console.log('Items fetched:', items.value);
     } else {
-      console.error('Erreur lors de la récupération des items');
+      console.error('Error fetching items');
     }
   } catch (error) {
-    console.error('Erreur lors de la récupération des items:', error);
+    console.error('Error fetching items:', error);
   }
 }
 
 async function fetchSharedItems() {
   const token = localStorage.getItem('token');
   if (!token) {
-    console.error('Token non trouvé');
+    console.error('Token not found');
     return;
   }
 
@@ -122,19 +120,19 @@ async function fetchSharedItems() {
 
     if (response.ok) {
       sharedItems.value = await response.json();
-      console.log('Items partagés récupérés:', sharedItems.value);
+      console.log('Shared items fetched:', sharedItems.value);
     } else {
-      console.error('Erreur lors de la récupération des items partagés');
+      console.error('Error fetching shared items');
     }
   } catch (error) {
-    console.error('Erreur lors de la récupération des items partagés:', error);
+    console.error('Error fetching shared items:', error);
   }
 }
 
 async function addItem() {
   const token = localStorage.getItem('token');
   if (!token) {
-    console.error('Token non trouvé');
+    console.error('Token not found');
     return;
   }
 
@@ -157,22 +155,22 @@ async function addItem() {
     if (response.ok) {
       const newItemData = await response.json();
       items.value.push(newItemData);
-      console.log('Nouvel item ajouté :', newItemData);
+      console.log('New item added:', newItemData);
       newItemName.value = '';
       newItemPrice.value = 0;
       newItemKeyword.value = '';
     } else {
-      console.error("Erreur lors de l'ajout de l'item");
+      console.error('Error adding item');
     }
   } catch (error) {
-    console.error("Erreur lors de l'ajout de l'item:", error);
+    console.error('Error adding item:', error);
   }
 }
 
 async function shareList() {
   const token = localStorage.getItem('token');
   if (!token) {
-    console.error('Token non trouvé');
+    console.error('Token not found');
     return;
   }
 
@@ -181,7 +179,7 @@ async function shareList() {
     shareWithUserId: selectedUsers.value,
   };
 
-  console.log('Données à envoyer pour partager la liste:', payload);
+  console.log('Data to share list:', payload);
 
   try {
     const response = await fetch('http://localhost:5000/api/wishlist/share', {
@@ -194,12 +192,12 @@ async function shareList() {
     });
 
     if (response.ok) {
-      console.log('Liste partagée avec succès');
+      console.log('List shared successfully');
     } else {
-      console.error('Erreur lors du partage de la liste', response.statusText);
+      console.error('Error sharing list', response.statusText);
     }
   } catch (error) {
-    console.error('Erreur lors du partage de la liste:', error);
+    console.error('Error sharing list:', error);
   }
 }
 
@@ -211,7 +209,7 @@ onMounted(() => {
 </script>
 
 <style>
-/* Style pour le conteneur principal */
+/* Style for the main container */
 div {
   max-width: 600px;
   margin: 0 auto;
@@ -219,13 +217,13 @@ div {
   font-family: Arial, sans-serif;
 }
 
-/* Style pour les en-têtes */
+/* Style for headers */
 h2 {
   color: #333;
   margin-bottom: 10px;
 }
 
-/* Style pour les listes */
+/* Style for lists */
 ul {
   list-style-type: none;
   padding: 0;
@@ -239,7 +237,7 @@ li {
   border-radius: 5px;
 }
 
-/* Style pour le formulaire */
+/* Style for form */
 form {
   margin-top: 20px;
   display: flex;
@@ -267,7 +265,7 @@ button:hover {
   background-color: #0056b3;
 }
 
-/* Style pour le select multiple */
+/* Style for multiple select */
 select[multiple] {
   margin-top: 10px;
   padding: 10px;
@@ -275,7 +273,7 @@ select[multiple] {
   border-radius: 5px;
 }
 
-/* Style pour le bouton de partage */
+/* Style for share button */
 button + button {
   margin-top: 10px;
   background-color: #28a745;

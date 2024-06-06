@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <h1>Application Wishlist</h1>
+    <h1>Wishlist Application</h1>
     <div v-if="!loggedIn">
       <Register @registerSuccess="loginUser" />
       <hr />
@@ -32,19 +32,18 @@ export default {
     };
   },
   created() {
-    // Appel de la méthode pour récupérer le statut des insertions lors du chargement initial
     this.fetchInsertionStatus();
   },
   methods: {
     async loginUser() {
-      // Logique pour définir l'utilisateur connecté
       this.loggedIn = true;
       await this.fetchItems();
     },
     async fetchInsertionStatus() {
       try {
-        // Appel à une API pour récupérer le statut des insertions
-        const response = await fetch('http://localhost:5000/api/status/insertionStatus');
+        const response = await fetch(
+          'http://localhost:5000/api/status/insertionStatus'
+        );
         const data = await response.json();
         this.insertionStatus = data;
       } catch (error) {
@@ -53,7 +52,6 @@ export default {
     },
     async fetchItems() {
       try {
-        // Appel à une API pour récupérer les éléments de la wishlist
         const response = await fetch('http://localhost:5000/api/wishlist');
         const data = await response.json();
         this.items = data;
@@ -65,9 +63,7 @@ export default {
 };
 </script>
 
-
 <style>
-/* Style général pour le conteneur principal */
 #app {
   max-width: 800px;
   margin: 0 auto;
@@ -76,13 +72,11 @@ export default {
   text-align: center;
 }
 
-/* Style pour l'en-tête principal */
 h1 {
   color: #333;
   margin-bottom: 20px;
 }
 
-/* Style pour les composants d'authentification */
 div {
   background-color: #f9f9f9;
   padding: 20px;
@@ -97,7 +91,6 @@ hr {
   border-top: 1px solid #ddd;
 }
 
-/* Style pour le bouton */
 button {
   padding: 10px 20px;
   color: #fff;
@@ -111,7 +104,6 @@ button:hover {
   background-color: #0056b3;
 }
 
-/* Style pour les messages d'erreur */
 .error {
   color: red;
   font-size: 14px;

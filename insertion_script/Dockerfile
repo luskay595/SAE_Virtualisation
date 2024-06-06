@@ -1,16 +1,15 @@
-# Utiliser une image de base légère de Python
+# Use a lightweight Python base image
 FROM python:3.8-slim
 
-# Définir le répertoire de travail dans le conteneur
+# Set the working directory in the container
 WORKDIR /app
 
-# Copier le script Python et le fichier de configuration
+# Copy the Python script and the configuration file
 COPY script.py .
 COPY requirements.txt .
 
-# Installer les dépendances Python
+# Install Python dependencies
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Commande pour exécuter le script Python
+# Command to run the Python script
 CMD ["python", "script.py"]
-

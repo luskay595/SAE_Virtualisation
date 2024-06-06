@@ -1,21 +1,20 @@
-# Utiliser une image de base légère de Node.js
+# Use a lightweight Node.js base image
 FROM node:14-alpine
 
-# Définir le répertoire de travail dans le conteneur
+# Set the working directory in the container
 WORKDIR /app
 
-# Copier les fichiers package.json et package-lock.json
+# Copy package.json and package-lock.json files
 COPY package*.json ./
 
-# Installer les dépendances
+# Install dependencies
 RUN npm install
 
-# Copier le reste des fichiers de l'application
+# Copy the rest of the application files
 COPY . .
 
-# Exposer le port sur lequel l'application s'exécutera
+# Expose the port on which the application will run
 EXPOSE 5000
 
-# Commande pour lancer l'application Node.js
+# Command to launch the Node.js application
 CMD ["npm", "start"]
-

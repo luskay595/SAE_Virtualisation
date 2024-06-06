@@ -1,6 +1,5 @@
 import psycopg2
 
-# Connexion à la base de données PostgreSQL
 conn = psycopg2.connect(
     dbname="wishlist",
     user="admin",
@@ -8,11 +7,9 @@ conn = psycopg2.connect(
     host="db"
 )
 
-# Création d'un curseur pour exécuter les requêtes SQL
 cur = conn.cursor()
 
 try:
-    # Exécution des requêtes SQL
     cur.execute("""
         -- Insérer des utilisateurs avec des mots de passe déjà hashés
         INSERT INTO users (username, password) VALUES ('user1', '$2b$10$Cd4p9WLss9vdxyUMAgpaFuN3JSy6ewz.WiiNsidOX.tCtCmiujO9y');
@@ -36,10 +33,8 @@ try:
         INSERT INTO shared_wishlist (wishlist_id, shared_with_user_id) VALUES (5, 1);
     """)
 
-    # Confirmation de la transaction
     conn.commit()
 
-    # Comptage du nombre de lignes insérées
     cur.execute("SELECT COUNT(*) FROM users;")
     users_count = cur.fetchone()[0]
 
@@ -47,11 +42,9 @@ try:
 
 except Exception as e:
     print("Erreur lors de l'insertion :", e)
-    # Annulation de la transaction en cas d'erreur
     conn.rollback()
 
 finally:
-    # Fermeture du curseur et de la connexion à la base de données
     cur.close()
     conn.close()
 
