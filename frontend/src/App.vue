@@ -3,7 +3,7 @@
     <h1>Application Wishlist</h1>
     <div v-if="!loggedIn">
       <Register @registerSuccess="loginUser" />
-      <hr>
+      <hr />
       <Login @loginSuccess="loginUser" />
     </div>
     <div v-else>
@@ -13,8 +13,8 @@
 </template>
 
 <script>
-import Register from './components/Register.vue';
 import Login from './components/Login.vue';
+import Register from './components/Register.vue';
 import Wishlist from './components/Wishlist.vue';
 
 export default {
@@ -22,13 +22,13 @@ export default {
   components: {
     Register,
     Login,
-    Wishlist
+    Wishlist,
   },
   data() {
     return {
       loggedIn: false,
-      items: []
-    }
+      items: [],
+    };
   },
   methods: {
     async loginUser() {
@@ -45,12 +45,11 @@ export default {
       } catch (error) {
         console.error('Error fetching wishlist items:', error.message);
       }
-    }
-  }
-}
+    },
+  },
+};
 </script>
 
 <style>
 /* Ajoutez votre style ici */
 </style>
-

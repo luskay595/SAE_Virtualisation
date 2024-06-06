@@ -2,28 +2,47 @@
   <div>
     <h2>Ma Liste d'Envies</h2>
     <ul>
-      <li v-for="item in items" :key="item.id">{{ item.name }} - {{ item.price }} ({{ item.keywords }})</li>
+      <li v-for="item in items" :key="item.id">
+        {{ item.name }} - {{ item.price }} ({{ item.keywords }})
+      </li>
     </ul>
     <h2>Listes Partagées avec Moi</h2>
     <ul>
-      <li v-for="item in sharedItems" :key="item.id">{{ item.name }} - {{ item.price }}</li>
+      <li v-for="item in sharedItems" :key="item.id">
+        {{ item.name }} - {{ item.price }}
+      </li>
     </ul>
     <form @submit.prevent="addItem">
-      <input v-model="newItemName" type="text" placeholder="Nom de l'article" required>
-      <input v-model="newItemPrice" type="number" step="0.01" placeholder="Prix" required>
-      <input v-model="newItemKeyword" type="text" placeholder="Mots-clés">
+      <input
+        v-model="newItemName"
+        type="text"
+        placeholder="Nom de l'article"
+        required
+      />
+      <input
+        v-model="newItemPrice"
+        type="number"
+        step="0.01"
+        placeholder="Prix"
+        required
+      />
+      <input v-model="newItemKeyword" type="text" placeholder="Mots-clés" />
       <button type="submit">Ajouter</button>
     </form>
     <h2>Partager ma Liste d'Envies</h2>
     <select multiple v-model="selectedUsers">
-      <option v-for="user in users" :key="user.id" :value="user.id">{{ user.username }}</option>
+      <option v-for="user in users" :key="user.id" :value="user.id">
+        {{ user.username }}
+      </option>
     </select>
-    <button @click="shareList">Partager avec les utilisateurs sélectionnés</button>
+    <button @click="shareList">
+      Partager avec les utilisateurs sélectionnés
+    </button>
   </div>
 </template>
 
 <script lang="ts" setup>
-import { ref, onMounted } from 'vue';
+import { onMounted, ref } from 'vue';
 
 const items = ref([]);
 const sharedItems = ref([]);
@@ -43,8 +62,8 @@ async function fetchUsers() {
   try {
     const response = await fetch('http://localhost:5000/api/users', {
       headers: {
-        'Authorization': `Bearer ${token}`
-      }
+        Authorization: `Bearer ${token}`,
+      },
     });
 
     if (!response.ok) {
@@ -53,7 +72,7 @@ async function fetchUsers() {
 
     const data = await response.json();
     console.log('Utilisateurs récupérés:', data);
-    users.value = data; 
+    users.value = data;
   } catch (error) {
     console.error(error);
   }
@@ -69,8 +88,8 @@ async function fetchItems() {
   try {
     const response = await fetch('http://localhost:5000/api/wishlist', {
       headers: {
-        'Authorization': `Bearer ${token}`
-      }
+        Authorization: `Bearer ${token}`,
+      },
     });
 
     const text = await response.text();
@@ -97,8 +116,8 @@ async function fetchSharedItems() {
   try {
     const response = await fetch('http://localhost:5000/api/wishlist/shared', {
       headers: {
-        'Authorization': `Bearer ${token}`
-      }
+        Authorization: `Bearer ${token}`,
+      },
     });
 
     if (response.ok) {
@@ -112,7 +131,6 @@ async function fetchSharedItems() {
   }
 }
 
-
 async function addItem() {
   const token = localStorage.getItem('token');
   if (!token) {
@@ -123,7 +141,7 @@ async function addItem() {
   const newItem = {
     name: newItemName.value,
     price: newItemPrice.value,
-    keyword: newItemKeyword.value
+    keyword: newItemKeyword.value,
   };
 
   try {
@@ -131,9 +149,9 @@ async function addItem() {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': `Bearer ${token}`
+        Authorization: `Bearer ${token}`,
       },
-      body: JSON.stringify(newItem)
+      body: JSON.stringify(newItem),
     });
 
     if (response.ok) {
@@ -144,10 +162,10 @@ async function addItem() {
       newItemPrice.value = 0;
       newItemKeyword.value = '';
     } else {
-      console.error('Erreur lors de l\'ajout de l\'item');
+      console.error("Erreur lors de l'ajout de l'item");
     }
   } catch (error) {
-    console.error('Erreur lors de l\'ajout de l\'item:', error);
+    console.error("Erreur lors de l'ajout de l'item:", error);
   }
 }
 
@@ -159,8 +177,8 @@ async function shareList() {
   }
 
   const payload = {
-    wishlistId: items.value.map(item => item.id),
-    shareWithUserId: selectedUsers.value
+    wishlistId: items.value.map((item) => item.id),
+    shareWithUserId: selectedUsers.value,
   };
 
   console.log('Données à envoyer pour partager la liste:', payload);
@@ -170,9 +188,9 @@ async function shareList() {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': `Bearer ${token}`
+        Authorization: `Bearer ${token}`,
       },
-      body: JSON.stringify(payload)
+      body: JSON.stringify(payload),
     });
 
     if (response.ok) {

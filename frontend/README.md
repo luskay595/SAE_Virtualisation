@@ -4,7 +4,7 @@ This is the frontend application for the Wishlist project.
 
 ## Build and Run with Docker
 
-```bash
+````bash
 cd SAE_Virtualisation/frontend
 docker build -t wishlist-frontend .
 docker run -d --name wishlist-frontend --network sae-network -p 8080:8080 wishlist-frontend
@@ -29,3 +29,4 @@ docker run -d --name wishlist-frontend --network sae-network -p 8080:8080 wishli
 
 En suivant cette structure et ces étapes, vous devriez pouvoir configurer, construire et exécuter le conteneur Docker pour la partie frontend de votre application de liste d'envies.
 
+````
