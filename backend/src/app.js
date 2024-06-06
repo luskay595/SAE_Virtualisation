@@ -4,6 +4,8 @@ const bodyParser = require('body-parser');
 const wishlistRoutes = require('./routes/wishlist');
 const userRoutes = require('./routes/user');
 const usersRoutes = require('./routes/users');
+const dbstatus = require('./routes/insertionstatus.js');
+
 
 const app = express();
 const port = 5000;
@@ -21,7 +23,7 @@ app.use(bodyParser.json());
 app.use('/api/wishlist', wishlistRoutes);
 app.use('/api/user', userRoutes);
 app.use('/api/users', usersRoutes);
-
+app.use('/api/status', dbstatus);
 app.listen(port, () => {
   console.log(`Server running on port ${port}`);
 });

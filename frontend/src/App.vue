@@ -28,13 +28,28 @@ export default {
     return {
       loggedIn: false,
       items: [],
+      insertionStatus: null,
     };
+  },
+  created() {
+    // Appel de la méthode pour récupérer le statut des insertions lors du chargement initial
+    this.fetchInsertionStatus();
   },
   methods: {
     async loginUser() {
       // Logique pour définir l'utilisateur connecté
       this.loggedIn = true;
       await this.fetchItems();
+    },
+    async fetchInsertionStatus() {
+      try {
+        // Appel à une API pour récupérer le statut des insertions
+        const response = await fetch('http://localhost:5000/api/status/insertionStatus');
+        const data = await response.json();
+        this.insertionStatus = data;
+      } catch (error) {
+        console.error('Error fetching insertion status:', error.message);
+      }
     },
     async fetchItems() {
       try {
@@ -49,6 +64,7 @@ export default {
   },
 };
 </script>
+
 
 <style>
 /* Style général pour le conteneur principal */
