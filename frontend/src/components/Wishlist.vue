@@ -211,5 +211,77 @@ onMounted(() => {
 </script>
 
 <style>
-/* Ajoutez votre style ici */
+/* Style pour le conteneur principal */
+div {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 20px;
+  font-family: Arial, sans-serif;
+}
+
+/* Style pour les en-têtes */
+h2 {
+  color: #333;
+  margin-bottom: 10px;
+}
+
+/* Style pour les listes */
+ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+li {
+  background: #f9f9f9;
+  margin: 5px 0;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+}
+
+/* Style pour le formulaire */
+form {
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+}
+
+input[type='text'],
+input[type='number'] {
+  margin-bottom: 10px;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+}
+
+button {
+  padding: 10px;
+  color: #fff;
+  background-color: #007bff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #0056b3;
+}
+
+/* Style pour le select multiple */
+select[multiple] {
+  margin-top: 10px;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+}
+
+/* Style pour le bouton de partage */
+button + button {
+  margin-top: 10px;
+  background-color: #28a745;
+}
+
+button + button:hover {
+  background-color: #218838;
+}
 </style>

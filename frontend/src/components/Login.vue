@@ -72,11 +72,62 @@ export default {
 </script>
 
 <style>
-/* Ajoutez votre style ici */
-.error {
-  color: red;
+/* Style général pour le conteneur principal */
+div {
+  max-width: 400px;
+  margin: 0 auto;
+  padding: 20px;
+  font-family: Arial, sans-serif;
+  background-color: #f9f9f9;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  text-align: center;
 }
-.success {
+
+/* Style pour l'en-tête */
+h2 {
+  color: #333;
+  margin-bottom: 20px;
+}
+
+/* Style pour le formulaire */
+form {
+  display: flex;
+  flex-direction: column;
+}
+
+input[type='text'],
+input[type='password'] {
+  margin-bottom: 10px;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  font-size: 16px;
+}
+
+button {
+  padding: 10px;
+  color: #fff;
+  background-color: #007bff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+button:hover {
+  background-color: #0056b3;
+}
+
+/* Style pour les messages */
+div.error {
+  color: red;
+  margin-top: 10px;
+}
+
+div.success {
   color: green;
+  margin-top: 10px;
 }
 </style>
