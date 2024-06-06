@@ -44,7 +44,6 @@ services:
     networks:
       - db-script-net
 
-
 networks:
   frontend-backend-net:
     driver: bridge
@@ -52,4 +51,3 @@ networks:
     driver: bridge
   db-script-net:
     driver: bridge
-
