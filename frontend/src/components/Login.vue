@@ -1,20 +1,15 @@
 <template>
   <div>
-    <h2>Connexion</h2>
+    <h2>Login</h2>
     <form @submit.prevent="loginUser">
-      <input
-        v-model="username"
-        type="text"
-        placeholder="Nom d'utilisateur"
-        required
-      />
+      <input v-model="username" type="text" placeholder="Username" required />
       <input
         v-model="password"
         type="password"
-        placeholder="Mot de passe"
+        placeholder="Password"
         required
       />
-      <button type="submit">Se connecter</button>
+      <button type="submit">Login</button>
     </form>
     <div v-if="message" :class="{ error: error, success: !error }">
       {{ message }}
@@ -50,21 +45,21 @@ export default {
 
         if (!response.ok) {
           if (response.status === 401) {
-            this.message = "Nom d'utilisateur ou mot de passe incorrect.";
+            this.message = 'Incorrect username or password.';
           } else {
-            this.message = 'Erreur lors de la connexion. Veuillez réessayer.';
+            this.message = 'Error logging in. Please try again.';
           }
           this.error = true;
           throw new Error(this.message);
         }
 
         const data = await response.json();
-        localStorage.setItem('token', data.token); // Stocker le token dans le stockage local
-        this.message = 'Connexion réussie!';
+        localStorage.setItem('token', data.token); // Store the token in local storage
+        this.message = 'Login successful!';
         this.error = false;
         this.$emit('loginSuccess');
       } catch (error) {
-        console.error('Erreur lors de la connexion:', error);
+        console.error('Error logging in:', error);
       }
     },
   },
@@ -72,7 +67,7 @@ export default {
 </script>
 
 <style>
-/* Style général pour le conteneur principal */
+/* General style for the main container */
 div {
   max-width: 400px;
   margin: 0 auto;
@@ -85,13 +80,13 @@ div {
   text-align: center;
 }
 
-/* Style pour l'en-tête */
+/* Style for the header */
 h2 {
   color: #333;
   margin-bottom: 20px;
 }
 
-/* Style pour le formulaire */
+/* Style for the form */
 form {
   display: flex;
   flex-direction: column;
@@ -120,7 +115,7 @@ button:hover {
   background-color: #0056b3;
 }
 
-/* Style pour les messages */
+/* Style for messages */
 div.error {
   color: red;
   margin-top: 10px;
