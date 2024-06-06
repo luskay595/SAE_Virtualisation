@@ -6,6 +6,9 @@
       <input v-model="password" type="password" placeholder="Mot de passe" required>
       <button type="submit">S'inscrire</button>
     </form>
+    <div v-if="message" :class="{'error': error, 'success': !error}">
+      {{ message }}
+    </div>
   </div>
 </template>
 
@@ -14,42 +17,52 @@ export default {
   data() {
     return {
       username: '',
-      password: ''
+      password: '',
+      message: '',
+      error: false
     }
   },
   methods: {
-  registerUser() {
-    const newUser = {
-      username: this.username,
-      password: this.password
-    };
-    fetch('http://localhost:5000/api/user/register', { // Assurez-vous que l'URL est correcte
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(newUser)
-    })
-    .then(response => {
-      if (!response.ok) {
-        throw new Error('Erreur lors de l\'inscription');
+    async registerUser() {
+      const newUser = {
+        username: this.username,
+        password: this.password
+      };
+      
+      try {
+        const response = await fetch('http://localhost:5000/api/user/register', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(newUser)
+        });
+        
+        if (!response.ok) {
+          throw new Error('Erreur lors de l\'inscription');
+        }
+
+        const data = await response.json();
+        this.message = 'Inscription réussie!';
+        this.error = false;
+        console.log('Inscription réussie:', data);
+        // Gérer la réussite de l'inscription, comme rediriger l'utilisateur ou vider le formulaire
+      } catch (error) {
+        this.message = error.message;
+        this.error = true;
+        console.error('Erreur lors de l\'inscription:', error);
       }
-      return response.json();
-    })
-    .then(data => {
-      console.log('Inscription réussie:', data);
-      // Gérer la réussite de l'inscription
-    })
-    .catch(error => {
-      console.error('Erreur lors de l\'inscription:', error);
-      // Gérer l'erreur lors de l'inscription
-    });
+    }
   }
-}
 }
 </script>
 
 <style>
 /* Ajoutez votre style ici */
+.error {
+  color: red;
+}
+.success {
+  color: green;
+}
 </style>
-

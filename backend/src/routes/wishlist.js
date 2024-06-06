@@ -1,13 +1,12 @@
-// routes/wishlist.js
-
 const express = require('express');
 const router = express.Router();
 const wishlistController = require('../controllers/wishlistController');
+const authenticateToken = require('../middlewares/authMiddleware');
 
 // Routes
-router.get('/', wishlistController.getItems);
-router.post('/', wishlistController.addItem);
-router.post('/share', wishlistController.shareWishlist); // Nouvelle route pour le partage
+router.get('/', authenticateToken, wishlistController.getItems);
+router.post('/', authenticateToken, wishlistController.addItem);
+router.post('/share', authenticateToken, wishlistController.shareWishlist);
+router.get('/shared', authenticateToken, wishlistController.getSharedWishlists);
 
 module.exports = router;
-
