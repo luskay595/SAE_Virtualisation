@@ -89,9 +89,7 @@ To deploy the Wishlist Application using Docker Compose, follow these steps:
 
 Alternatively, you can deploy each component individually by following the deployment instructions provided in their respective README files.
 
-Voici la mise à jour de la section sur la sécurité pour inclure l'utilisation de réseaux spécifiques pour renforcer la sécurité du déploiement :
 
----
 
 ## Security
 
