@@ -7,6 +7,6 @@ const authenticateToken = require('../middlewares/authMiddleware');
 router.get('/', authenticateToken, wishlistController.getItems);
 router.post('/', authenticateToken, wishlistController.addItem);
 router.post('/share', authenticateToken, wishlistController.shareWishlist);
-router.get('/shared', authenticateToken, wishlistController.getSharedWishlists);
+router.get('/shared', authenticateToken, wishlistController.getSharedItems);
 
 module.exports = router;

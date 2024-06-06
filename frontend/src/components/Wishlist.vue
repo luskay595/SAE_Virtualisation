@@ -112,6 +112,7 @@ async function fetchSharedItems() {
   }
 }
 
+
 async function addItem() {
   const token = localStorage.getItem('token');
   if (!token) {

@@ -24,20 +24,23 @@ const getSharedItems = (req, res) => {
     const decoded = jwt.verify(token, 'secretKey');
     const userId = decoded.userId;
 
-    db.query('SELECT w.* FROM wishlist w INNER JOIN shared_wishlist sw ON w.id = sw.wishlist_id WHERE sw.shared_with_user_id = $1', [userId], (err, result) => {
+    db.query(`
+    SELECT w.* 
+    FROM wishlist w 
+    INNER JOIN shared_wishlist sw ON w.id = sw.wishlist_id 
+    WHERE sw.shared_with_user_id = $1
+  `, [userId], (err, result) => {
       if (err) {
         return res.status(500).json({ error: err.message });
       }
-      if (result.rows.length === 0) {
-        return res.status(404).json({ error: 'No shared items found' });
-      }
-      console.log('Items partagés récupérés:', result.rows);
       res.status(200).json(result.rows);
-    });
+    }
+    );
   } catch (err) {
     res.status(401).json({ error: 'Token manquant ou invalide.' });
   }
 };
+
 
 
 
